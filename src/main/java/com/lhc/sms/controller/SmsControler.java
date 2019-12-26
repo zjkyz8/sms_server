@@ -1,7 +1,7 @@
 package com.lhc.sms.controller;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
-import com.lhc.sms.SmsDemo;
+import com.lhc.sms.SmsObject;
 import com.lhc.sms.model.User;
 import com.lhc.sms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +40,12 @@ public class SmsControler {
     public String getCode(String username)throws Exception{
         //rts.opsForValue().set("17730223870",123456);
         System.out.println("phone=" + username);
-        SmsDemo smsDemo = new SmsDemo();
-        smsDemo.setNewcode();
-        String code = Integer.toString(smsDemo.getNewcode());
-        SendSmsResponse sendSms = smsDemo.sendSms(username, code);//填写你需要测试的手机号码
+        SmsObject smsObject = new SmsObject();
+        smsObject.setNewcode();
+        String code = Integer.toString(smsObject.getNewcode());
+        SendSmsResponse sendSms = smsObject.sendSms(username, code);//填写你需要测试的手机号码
         //将手机号和验证码存入redis,生存时间为5分钟
-        rts.opsForValue().set(username,code,5, TimeUnit.MINUTES);
+        rts.opsForValue().set(username, code, 1, TimeUnit.MINUTES);
         System.out.println("短信接口返回的数据----------------");
         System.out.println("Code=" + sendSms.getCode());
         System.out.println("Message=" + sendSms.getMessage());
@@ -70,9 +70,7 @@ public class SmsControler {
         try{
             Object code=rts.opsForValue().get(username);
             if (code.equals(pcode)) {
-                User user = userService.findByPhone(username);
-                session.setAttribute("user", user);
-                return user;
+                
             } else {
                 return false;
             }

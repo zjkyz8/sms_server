@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.lhc</groupId>
-    <artifactId>sms_demo</artifactId>
+    <artifactId>sms_service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>sms_demo</name>
-    <description>Demo project for Spring Boot</description>
+    <name>sms_service</name>
+    <description>verify code service</description>
 
     <properties>
         <java.version>1.8</java.version>

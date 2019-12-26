@@ -8,7 +8,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 
-public class SmsDemo {
+public class SmsObject {
     // 产品名称:云通信短信API产品,开发者无需替换
     static final String product = "Dysmsapi";
     // 产品域名,开发者无需替换
