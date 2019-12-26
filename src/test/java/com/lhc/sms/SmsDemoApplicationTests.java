@@ -1,6 +1,4 @@
 package com.lhc.sms;
-
-import com.lhc.sms.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +21,6 @@ public class SmsDemoApplicationTests {
     @Test
     public void testString(){
         redisTemplate.opsForValue().set("13609745545","4759",5, TimeUnit.MINUTES);
-    }
-    @Test
-    public void testList(){
-        //redisTemplate.opsForValue().set("13609745545","4759",5, TimeUnit.MINUTES);
-        for (int i = 1; i <= 10 ; i++) {
-            redisTemplate.opsForList().rightPush("users",new User(i+10+"",i+10+""));
-            //redisTemplate.expire("users",5,TimeUnit.MINUTES);
-        }
     }
     @Test
     public void testHash(){

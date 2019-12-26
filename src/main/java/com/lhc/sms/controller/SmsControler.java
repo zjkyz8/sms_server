@@ -1,17 +1,19 @@
 package com.lhc.sms.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.lhc.sms.SmsObject;
-import com.lhc.sms.model.User;
-import com.lhc.sms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -21,13 +23,14 @@ public class SmsControler {
     @Qualifier("redisTemplate")
     //实例化
     private RedisTemplate<Object, Object> rts;
-    @Autowired
-    private UserService userService;
 
     @RequestMapping("/say")
     @ResponseBody
-    public String say(){
-        return "hello world!";
+    public JSONObject say(){
+        JSONObject res = new JSONObject(new HashMap<>());
+        res.put("result", "hello world!");
+        return res;
+        // return "hello world!";
     }
     /**
      * 发送短信验证码
@@ -51,6 +54,7 @@ public class SmsControler {
         System.out.println("Message=" + sendSms.getMessage());
         System.out.println("RequestId=" + sendSms.getRequestId());
         System.out.println("BizId=" + sendSms.getBizId());
+        
         return sendSms.getCode();
     }
 
@@ -65,18 +69,20 @@ public class SmsControler {
      */
     @RequestMapping("/plogin")
     @ResponseBody
-    public Object plogin(String username, String pcode, HttpSession session) throws Exception {
+    public JSONObject plogin(String username, String pcode, HttpSession session) throws Exception {
         System.out.println("username=" + username + ";pcode=" + pcode);
+        JSONObject res = new JSONObject(new HashMap<>());        
         try{
             Object code=rts.opsForValue().get(username);
             if (code.equals(pcode)) {
-                
+                res.put("result", true);
             } else {
-                return false;
+                res.put("result", false);
             }
         }catch (Exception e){
+            res.put("result", false);
             e.printStackTrace();
         }
-        return false;
+        return res;
     }
 }
